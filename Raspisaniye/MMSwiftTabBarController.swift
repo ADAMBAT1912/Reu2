@@ -38,7 +38,7 @@ class MMSwiftTabBarController: UIViewController,UITextFieldDelegate{
     let yearNow = Date().year
     var realm:Realm?
     var realmDay:Day = Day()
-
+    var currentWeek:Int = 0
     var screenForwardEdgeRecognizer: UISwipeGestureRecognizer = UISwipeGestureRecognizer()
     var screenBackwardEdgeRecognizer: UISwipeGestureRecognizer = UISwipeGestureRecognizer()
     
@@ -322,6 +322,17 @@ class MMSwiftTabBarController: UIViewController,UITextFieldDelegate{
             
         }else if (segue.identifier == "segueCalendar"){
             
+            
+            let date = Date()
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "dd.MM.yyyy"
+            let dateString = dateFormatter.string(from: date)
+            
+            
+            
+            
+            self.weekLabel.text = "Неделя \(currentWeek),  \(dateString)"
+            
             self.isCalendar = true
             self.label.isHidden = true
             self.tabView.isHidden = true
@@ -393,6 +404,9 @@ class MMSwiftTabBarController: UIViewController,UITextFieldDelegate{
              weekNumber = (endOfLastWeekOfYear.weekOfYear - date.weekOfYear ) + selectedDate.weekOfYear + 1
         }else{
              weekNumber = selectedDate.weekOfYear - date.weekOfYear + 1
+            if(currentWeek == 0){
+                currentWeek = weekNumber!
+            }
         }
         if(segue == "weekSegue")
         {
